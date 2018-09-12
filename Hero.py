@@ -5,7 +5,7 @@ Wrapper class for a DSA hero formatted a xml-file by Helden-Software
 """
 import xml.etree.ElementTree as tree
 
-
+attributes = { 'MU':'courage', 'KL':'smarts', 'IN':'intuition', 'CH':'charisma', 'FF':'dexterity', 'GE':'artifice', 'KO':'constitution', 'KK':'strength'}
 class Hero:
     name = ''
 
@@ -45,6 +45,12 @@ class Hero:
                 self.__get_fightatts(child)
             else:
                 pass
+
+    def skill_attrs(self, skill):
+        attr = self.skills[skill][0]
+        return [self.__getattribute__(attributes[attr[0]]), self.__getattribute__(attributes[attr[1]]), self.__getattribute__(attributes[attr[2]])]
+
+
 
     def __get_attributes(self, tree):
         for child in tree:
@@ -91,6 +97,7 @@ class Hero:
     def __get_skill_dict(tree):
         skill_dict = {}
         for child in tree:
-            skill = [ child.get('probe'), child.get('value')]
+            probe = ''.join(child.get('probe').split())
+            skill = [ probe[1:-1].split('/'), child.get('value')]
             skill_dict[child.get('name')] = skill
         return skill_dict
