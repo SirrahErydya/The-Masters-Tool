@@ -20,6 +20,9 @@ class Hero:
     strength = 0
     social_state = 0
 
+    initiative = 0
+    pary = 0
+
     skills = {}
 
     spells = {}
@@ -46,11 +49,27 @@ class Hero:
             else:
                 pass
 
-    def skill_attrs(self, skill):
-        attr = self.skills[skill][0]
-        return [self.__getattribute__(attributes[attr[0]]), self.__getattribute__(attributes[attr[1]]), self.__getattribute__(attributes[attr[2]])]
+        self.initiative = (self.courage + self.artifice) / 2
+        self.pary = self.artifice / 2
 
 
+
+    @staticmethod
+    def get_hero_by_name(heroes, name):
+        for hero in heroes:
+            if hero.name == name:
+                return hero
+
+    def roll_attribute(self, attribute, roll, mod):
+        return self.__getattribute__(attribute) - roll + mod
+
+    def roll_skill(self, skill, roll1, roll2, roll3, mod):
+        attributes = self.__skill_attrs(skill)
+        return attributes[0] - roll1 + attributes[1] - roll2 + attributes[2] - roll3 + self.__getattribute__(skill)[
+            1] + mod
+
+    def roll_ini(self, roll, mod):
+        return self.initiative + roll + mod
 
     def __get_attributes(self, tree):
         for child in tree:
@@ -92,6 +111,9 @@ class Hero:
             else:
                 pass
 
+    def __skill_attrs(self, skill):
+        attr = self.skills[skill][0]
+        return [self.__getattribute__(attributes[attr[0]]), self.__getattribute__(attributes[attr[1]]), self.__getattribute__(attributes[attr[2]])]
 
     @staticmethod
     def __get_skill_dict(tree):
