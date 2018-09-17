@@ -49,8 +49,8 @@ class Hero:
             else:
                 pass
 
-        self.initiative = (self.courage + self.artifice) / 2
-        self.pary = self.artifice / 2
+        #self.initiative = (self.courage + self.artifice) / 2
+        #self.pary = self.artifice / 2
 
 
 
@@ -65,7 +65,7 @@ class Hero:
 
     def roll_skill(self, skill, roll1, roll2, roll3, mod):
         attributes = self.__skill_attrs(skill)
-        return attributes[0] - roll1 + attributes[1] - roll2 + attributes[2] - roll3 + self.__getattribute__(skill)[
+        return attributes[0] - roll1 + attributes[1] - roll2 + attributes[2] - roll3 + self.skills[skill][
             1] + mod
 
     def roll_ini(self, roll, mod):
@@ -74,23 +74,23 @@ class Hero:
     def __get_attributes(self, tree):
         for child in tree:
             if child.get('name') == 'Mut':
-                self.courage = child.get('value')
+                self.courage = int(child.get('value'))
             elif child.get('name') == 'Klugheit':
-                self.smarts = child.get('value')
+                self.smarts = int(child.get('value'))
             elif child.get('name') == 'Intuition':
-                self.intuition = child.get('value')
+                self.intuition = int(child.get('value'))
             elif child.get('name') == 'Charisma':
-                self.charisma = child.get('value')
+                self.charisma = int(child.get('value'))
             elif child.get('name') == 'Fingerfertigkeit':
-                self.dexterity = child.get('value')
+                self.dexterity = int(child.get('value'))
             elif child.get('name') == 'Gewandtheit':
-                self.artifice = child.get('value')
+                self.artifice = int(child.get('value'))
             elif child.get('name') == 'Konstitution':
-                self.constitution = child.get('value')
+                self.constitution =int( child.get('value'))
             elif child.get('name') == 'Körperkraft':
-                self.strength = child.get('value')
+                self.strength = int(child.get('value'))
             elif child.get('name') == 'Sozialstatus':
-                self.social_state = child.get('value')
+                self.social_state = int(child.get('value'))
             else:
                 pass
 
@@ -120,6 +120,6 @@ class Hero:
         skill_dict = {}
         for child in tree:
             probe = ''.join(child.get('probe').split())
-            skill = [ probe[1:-1].split('/'), child.get('value')]
+            skill = [ probe[1:-1].split('/'), int(child.get('value'))]
             skill_dict[child.get('name')] = skill
         return skill_dict
